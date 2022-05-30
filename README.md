@@ -2,13 +2,23 @@
 
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-> Convert from Munsell colors to sRGB and back*
+> Convert Munsell to sRGB
 
-Convert from sRGB to Munsell color system
+sRGB to Munsell
+
 ```js
 import { sRGBToMunsell } from 'munsell'
 const munsell = await sRGBToMunsell(0, 34, 153)
-console.log(munsell) 
 ```
+
+Munsell to sRGB
+
+```js
+import { sRGBToMunsell } from 'munsell'
+const rgb = await munsellTosRGB('5.0R', 1, 2)
+```
+
+
+The source of Munsell renotations are provided [here](https://github.com/colour-science/MunsellAndKubelkaMunkToolbox/tree/master/DataFiles)
 
 

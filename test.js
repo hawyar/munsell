@@ -1,5 +1,5 @@
 import * as tap from 'tap'
-import { sRGBToMunsell } from './munsell.js'
+import { munsellTosRGB, sRGBToMunsell } from './munsell.js'
 
 tap.test('sRGB to Munsell', async (t) => {
   t.test('1', async (t) => {
@@ -9,7 +9,7 @@ tap.test('sRGB to Munsell', async (t) => {
     t.end()
   })
 
-  tap.test('2', async (t) => {
+  t.test('2', async (t) => {
     const { hue, chroma } = await sRGBToMunsell(0, 34, 153)
     t.equal(hue, '6.67PB')
     t.equal(chroma, 15.47)
@@ -17,6 +17,10 @@ tap.test('sRGB to Munsell', async (t) => {
   })
 })
 
-tap.test('sRGB to Munsell', async (t) => {
-
+tap.test('Munsell to sRGB', async (t) => {
+  t.test('1', async (t) => {
+    const rgb = await munsellTosRGB('5.0R', 1, 2)
+    t.same(rgb, { r: 46, g: 21, b: 29 })
+    t.end()
+  })
 })

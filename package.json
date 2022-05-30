@@ -1,17 +1,30 @@
 {
   "name": "munsell",
   "version": "1.0.0",
-  "description": "COnvert sRGB to Munsell and back",
-  "main": "munsell.js",
+  "description": "Convert sRGB to munsell",
   "type": "module",
+  "main": "dist/munsell.cjs",
+  "exports": {
+    ".": {
+      "import": "./munsell.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
     "test": "standard && tap --no-coverage --reporter=specy -J --color",
+    "build": "esbuild munsell.js --bundle --platform=node --target=node14 --outfile=dist/munsell.cjs",
     "fix": "standard --fix"
+  },
+  "standard": {
+    "ignore": [
+      "dist/**"
+    ]
   },
   "keywords": [],
   "author": "hawyar",
   "license": "ISC",
   "devDependencies": {
+    "esbuild": "^0.14.42",
     "standard": "^17.0.0",
     "tap": "^16.2.0"
   }
