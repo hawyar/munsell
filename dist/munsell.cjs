@@ -22,6 +22,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // munsell.js
 var munsell_exports = {};
 __export(munsell_exports, {
+  munsellTosRGB: () => munsellTosRGB,
   sRGBToMunsell: () => sRGBToMunsell
 });
 module.exports = __toCommonJS(munsell_exports);
@@ -33,6 +34,9 @@ var import_meta = {};
 var __filename = (0, import_url.fileURLToPath)(import_meta.url);
 var dirname = import_path.default.dirname(__filename);
 async function sRGBToMunsell(r, g, b) {
+  if (r > 255 || g > 255 || b > 255) {
+    throw new Error("sRGB values must be between 0 and 255");
+  }
   return new Promise((resolve, reject) => {
     const stream = import_readline.default.createInterface({
       input: import_fs.default.createReadStream(import_path.default.join(dirname, "data", "sRGBToMunsell.txt")),
@@ -76,7 +80,49 @@ async function sRGBToMunsell(r, g, b) {
     });
   });
 }
+async function munsellTosRGB(h, v, c) {
+  if (typeof h !== "string" || typeof v !== "number" || typeof c !== "number") {
+    throw new Error("hue must be a string and value and chroma must be numbers");
+  }
+  return new Promise((resolve, reject) => {
+    const stream = import_readline.default.createInterface({
+      input: import_fs.default.createReadStream(import_path.default.join(dirname, "data", "MunsellRenotationTosRGB.txt")),
+      crlfDelay: Infinity
+    });
+    let count = 0;
+    let result = {
+      r: "",
+      g: "",
+      b: ""
+    };
+    stream.on("line", (line) => {
+      if (count === 0) {
+        count++;
+        return;
+      }
+      const [H, V, C, R, G, B] = line.split("	").map((x) => x.trim());
+      if (h === H && v.toString() === V && c.toString() === C) {
+        result = {
+          r: parseInt(R),
+          g: parseInt(G),
+          b: parseInt(B)
+        };
+        stream.close();
+        resolve(result);
+      }
+    });
+    stream.on("close", () => {
+      if (result.r === "" && result.g === "" && result.b === "") {
+        reject(new Error("No match found"));
+      }
+    });
+    stream.on("error", (err) => {
+      reject(err);
+    });
+  });
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  munsellTosRGB,
   sRGBToMunsell
 });

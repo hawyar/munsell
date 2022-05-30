@@ -2,7 +2,7 @@
 
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-> Convert Munsell to sRGB
+> Convert sRGB to Munsell color
 
 sRGB to Munsell
 

@@ -1,7 +1,7 @@
 {
   "name": "munsell",
   "version": "1.0.0",
-  "description": "Convert sRGB to munsell",
+  "description": "Convert sRGB to Munsell color",
   "type": "module",
   "main": "dist/munsell.cjs",
   "exports": {
@@ -22,7 +22,7 @@
   },
   "keywords": [],
   "author": "hawyar",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "esbuild": "^0.14.42",
     "standard": "^17.0.0",
