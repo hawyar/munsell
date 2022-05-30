@@ -23,8 +23,15 @@ async function sRGBToMunsell (r, g, b) {
 
     let count = 0
 
+    let result = {
+      value: '',
+      chroma: '',
+      hue: ''
+    }
+
     stream.on('line', line => {
-      if (count > 0) {
+      // skip first two lines
+      if (count > 1) {
         let hueVal = ''
 
         const [R, G, B, H, V, C] = line.split('\t').map(x => {
@@ -35,15 +42,20 @@ async function sRGBToMunsell (r, g, b) {
         })
 
         if (r === R && g === G && b === B) {
-          stream.close()
-          resolve({
+          result = {
             hue: H + hueVal,
             value: V,
             chroma: C
-          })
+          }
+          stream.close()
+          resolve(result)
         }
       }
       count++
+    })
+
+    stream.on('close', () => {
+      if (result.value === '') reject(new Error('No match found'))
     })
 
     stream.on('error', err => {
